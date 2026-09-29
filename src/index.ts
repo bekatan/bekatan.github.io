@@ -75,9 +75,6 @@ const createCard = (project: ProjectDemo) => {
                 <div class="card-body">
                     <h5 class="card-title">${title}</h5>
                     <p class="card-text">${description}</p>
-                    <p class="card-text">
-                        <small class="text-body-secondary">Last updated 3 mins ago</small>
-                    </p>
                 </div>
             </div>
         </div>`
@@ -89,13 +86,13 @@ const createCard = (project: ProjectDemo) => {
 }
 
 const projects: ProjectDemo[] = [
-    {
-        title: "Local chatbot",
-        description: "Local LLM Chatbot — private, fast, and fully yours. This on-device assistant keeps every message on your machine for privacy by default, stronger security, and true data ownership. It responds with low‑latency, works offline, avoids API limits and fees, and is fully customizable to your workflows. Wrapped in a clean, user‑friendly UI with modern UX—responsive layout, keyboard shortcuts, and accessible controls—it feels intuitive and delightful to use.",
-        imageSrc: chatVisual,
-        route: "chat",
-        launch: () => console.log("implement chatbot launch")
-    },
+    // {
+    //     title: "Local chatbot",
+    //     description: "Local LLM Chatbot — private, fast, and fully yours. This on-device assistant keeps every message on your machine for privacy by default, stronger security, and true data ownership. It responds with low‑latency, works offline, avoids API limits and fees, and is fully customizable to your workflows. Wrapped in a clean, user‑friendly UI with modern UX—responsive layout, keyboard shortcuts, and accessible controls—it feels intuitive and delightful to use.",
+    //     imageSrc: chatVisual,
+    //     route: "chat",
+    //     launch: () => console.log("implement chatbot launch")
+    // },
     {
         title: "Background remover",
         description: "Local Background Remover — private, fast, and on‑device. Cut clean subjects from photos and product shots using a local AI model, so your images never leave your computer. Enjoy offline, low‑latency results with no upload limits or fees, GPU‑accelerated performance, and full control over quality.",

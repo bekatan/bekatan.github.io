@@ -19,6 +19,32 @@ body {
 
 .image-card {
     height: 10rem;
+    object-fit: contain;
+    background-color: #fff;
+    background-image: conic-gradient(#ddd 25%, transparent 0 50%, #ddd 0 75%, transparent 0);
+    background-size: 16px 16px;
+}
+
+.drop-zone {
+    border: 2px dashed var(--bs-border-color);
+    background-color: var(--bs-body-bg);
+    transition: border-color .15s, background-color .15s;
+}
+
+.drop-zone.drag-over {
+    border-color: var(--bs-success);
+    background-color: var(--bs-success-bg-subtle);
+}
+
+.sample-thumb img {
+    width: 5rem;
+    height: 5rem;
+    object-fit: cover;
+    display: block;
+}
+
+.result-card {
+    width: 12rem;
 }
 
 .h-fit-content {
