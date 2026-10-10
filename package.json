@@ -21,6 +21,7 @@
     "vite": "^7.1.7"
   },
   "dependencies": {
+    "@embedpdf/snippet": "^2.15.1",
     "@huggingface/transformers": "^3.7.6",
     "kokoro-js": "^1.2.1"
   }

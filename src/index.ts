@@ -1,10 +1,12 @@
 import { showBackgroundRemover } from "./backgroundRemover"
 import { showTTS } from "./tts"
+import { showPdfEditor } from "./pdfEditor"
 import { setView } from "./body"
 // Import visual assets so Vite treats them as module assets and copies/hashes them into the build
 import chatVisual from "../assets/chat-visual.png"
 import bgrndVisual from "../assets/bgrndrm-visual.png"
 import ttsVisual from "../assets/tts-visual.png"
+import pdfVisual from "../assets/pdf-visual.svg"
 
 type ProjectDemo = {
     title: string,
@@ -24,7 +26,8 @@ function openMainPage() {
 
 const initRouter = () => {
     window.addEventListener("popstate", (e) => {
-        const route = e.state.route
+        // Entries opened by direct URL have no state, so fall back to the path
+        const route = e.state?.route ?? location.pathname.substring(1)
         const launch = projects.find(proj => proj.route === route)?.launch
         launch ? launch() : openMainPage()
     })
@@ -54,9 +57,13 @@ const showProjectCards = () => {
 
 const main = () => {
     const brandLink = document.getElementById("brand")
-    brandLink?.addEventListener("click", () => {
+    const goHome = () => {
         pushState('/')
         showProjectCards()
+    }
+    brandLink?.addEventListener("click", goHome)
+    brandLink?.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") goHome()
     })
     initRouter()
 }
@@ -95,17 +102,24 @@ const projects: ProjectDemo[] = [
     // },
     {
         title: "Background remover",
-        description: "Local Background Remover — private, fast, and on‑device. Cut clean subjects from photos and product shots using a local AI model, so your images never leave your computer. Enjoy offline, low‑latency results with no upload limits or fees, GPU‑accelerated performance, and full control over quality.",
+        description: "Cut the subject out of a photo and download it as a transparent PNG. The AI model runs locally in your browser, so your images are never uploaded anywhere.",
         imageSrc: bgrndVisual,
         route: "background-remover",
         launch: () => showBackgroundRemover()
     },
     {
         title: "Text to speech converter",
-        description: "Local Text‑to‑Speech — private, fast, fully offline. Turn scripts into natural audio with on‑device models so your words never leave your machine. Enjoy instant previews, no usage caps or API fees, and full control over voice, speed, and style—wrapped in a clean, user‑friendly UI with modern UX.",
+        description: "Type text and play it back as speech, then download the audio. Choose between the Kokoro model, which runs locally in your browser, and your browser's built-in voices. Voice, speed, pitch and volume are adjustable.",
         imageSrc: ttsVisual,
         route: "tts",
         launch: () => showTTS()
+    },
+    {
+        title: "PDF editor",
+        description: "Open a PDF to annotate, highlight, sign, fill in forms, redact and rotate pages, then download the edited copy. Everything runs in your browser, so your documents never leave your device.",
+        imageSrc: pdfVisual,
+        route: "pdf-editor",
+        launch: () => showPdfEditor()
     },
 ]
 

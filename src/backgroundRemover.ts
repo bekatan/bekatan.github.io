@@ -17,6 +17,13 @@ type ResultItem = {
     card?: HTMLDivElement
 }
 
+// BEN2 (219 MB, 1024px) runs out of memory in mobile browser tabs, so phones get the smaller quantized RMBG-1.4
+const isMobile: boolean = (navigator as any).userAgentData?.mobile
+    ?? /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)
+const MODEL = isMobile
+    ? { id: "briaai/RMBG-1.4", label: "RMBG-1.4", device: "wasm", dtype: "q8" } as const
+    : { id: "onnx-community/BEN2-ONNX", label: "BEN2", device: "auto", dtype: "auto" } as const
+
 const images: ResultItem[] = []
 let pending = 0
 let modelReady = false
@@ -54,7 +61,7 @@ export const showBackgroundRemover = () => {
             <span class="badge text-bg-success">Runs locally</span>
             <span class="badge text-bg-secondary">No uploads</span>
             <span class="badge text-bg-secondary">WebGPU / WASM</span>
-            <span class="badge text-bg-secondary">BEN2 model</span>
+            <span class="badge text-bg-secondary">${MODEL.label} model</span>
         </div>
         <p class="small text-body-secondary mt-2 mb-0">
             The first run downloads the model once. After that it's cached and loads quickly.
@@ -150,7 +157,7 @@ const processItem = async (item: ResultItem) => {
     updateStatus()
     try {
         const remover = await getRemover()
-        const output = await remover(item.url)
+        const output = await runQueued(() => remover(item.url))
         const resultUrl = URL.createObjectURL(await output[0].toBlob())
         if (item.url.startsWith("blob:")) URL.revokeObjectURL(item.url)
         item.url = resultUrl
@@ -272,12 +279,20 @@ const renderCard = (item: ResultItem, imageCard: HTMLDivElement) => {
 
 let removerPromise: Promise<BackgroundRemovalPipeline> | undefined
 
+// Runs one image at a time: concurrent runs multiply peak memory, which crashes mobile tabs
+let inferenceQueue: Promise<unknown> = Promise.resolve()
+const runQueued = <T>(task: () => Promise<T>): Promise<T> => {
+    const result = inferenceQueue.then(task)
+    inferenceQueue = result.catch(() => undefined)
+    return result
+}
+
 const getRemover = () => {
     removerPromise ??= (async () => {
         //@ts-ignore
-        const remover: BackgroundRemovalPipeline = await pipeline("background-removal", "onnx-community/BEN2-ONNX", {
-            device: "auto",
-            dtype: "auto",
+        const remover: BackgroundRemovalPipeline = await pipeline("background-removal", MODEL.id, {
+            device: MODEL.device,
+            dtype: MODEL.dtype,
             progress_callback: (event: unknown) => {
                 const payload = event as Record<string, unknown>
                 if (payload.status === "progress" && typeof payload.file === "string"
