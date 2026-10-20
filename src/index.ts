@@ -10,7 +10,10 @@ import pdfVisual from "../assets/pdf-visual.svg"
 
 type ProjectDemo = {
     title: string,
-    description: string,
+    // What the tool does, then how it's built: the card is written for an engineer reading the portfolio
+    summary: string,
+    detail: string,
+    tags: string[],
     imageSrc: string,
     route: string,
     launch: () => void
@@ -84,19 +87,22 @@ const main = () => {
 }
 
 const createCard = (project: ProjectDemo) => {
-    const {title, description, imageSrc, route, launch } = project
+    const { title, summary, detail, tags, imageSrc, route, launch } = project
     const card = document.createElement("div")
-    card.classList.add("card", "mb-3")
     card.className = "card m-2"
-    card.innerHTML = 
+    card.innerHTML =
         `<div class="row g-0">
             <div class="col-md-4">
                 <img src="${imageSrc}" class="img-fluid rounded-start" alt="...">
             </div>
             <div class="col-md-8">
                 <div class="card-body">
-                    <h5 class="card-title">${title}</h5>
-                    <p class="card-text">${description}</p>
+                    <h3 class="card-title h5">${title}</h3>
+                    <p class="card-text mb-1">${summary}</p>
+                    <p class="card-text small text-body-secondary mb-2">${detail}</p>
+                    <div class="d-flex flex-wrap gap-1">
+                        ${tags.map(tag => `<span class="badge rounded-pill text-bg-light border">${tag}</span>`).join("")}
+                    </div>
                 </div>
             </div>
         </div>`
@@ -117,21 +123,27 @@ const projects: ProjectDemo[] = [
     // },
     {
         title: "Background remover",
-        description: "Cut the subject out of a photo and download it as a transparent PNG. The AI model runs locally in your browser, so your images are never uploaded anywhere.",
+        summary: "Cuts the subject out of a photo and returns a transparent PNG.",
+        detail: "BEN2 via Transformers.js, on WebGPU with a WASM fallback. Phones get the smaller quantized RMBG-1.4, and images run one at a time to cap memory.",
+        tags: ["Transformers.js", "ONNX Runtime Web", "WebGPU", "WASM", "BEN2"],
         imageSrc: bgrndVisual,
         route: "background-remover",
         launch: () => showBackgroundRemover()
     },
     {
-        title: "Text to speech converter",
-        description: "Type text and play it back as speech, then download the audio. Choose between the Kokoro model, which runs locally in your browser, and your browser's built-in voices. Voice, speed, pitch and volume are adjustable.",
+        title: "Text to speech",
+        summary: "Turns text into speech you can play back or download as WAV.",
+        detail: "Kokoro-82M (8-bit ONNX) via kokoro-js, on WASM or opt-in WebGPU. The browser's Web Speech API is the second engine.",
+        tags: ["Kokoro-82M", "kokoro-js", "WebGPU", "WASM", "Web Speech API"],
         imageSrc: ttsVisual,
         route: "tts",
         launch: () => showTTS()
     },
     {
         title: "PDF editor",
-        description: "Open a PDF to annotate, highlight, sign, fill in forms, redact and rotate pages, then download the edited copy. Everything runs in your browser, so your documents never leave your device.",
+        summary: "Annotate, sign, fill in forms, redact and rotate pages, then download the PDF.",
+        detail: "A thin wrapper around EmbedPDF, which runs PDFium compiled to WebAssembly in a Web Worker. The PDFium binary is self-hosted and the editor loads only on this route.",
+        tags: ["EmbedPDF", "PDFium", "WebAssembly", "Web Worker"],
         imageSrc: pdfVisual,
         route: "pdf-editor",
         launch: () => showPdfEditor()
