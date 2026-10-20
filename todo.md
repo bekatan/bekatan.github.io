@@ -1,3 +1,0 @@
--implement main view change
--implement background remover
--graphic assets for image cards

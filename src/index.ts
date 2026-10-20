@@ -3,7 +3,6 @@ import { showTTS } from "./tts"
 import { showPdfEditor } from "./pdfEditor"
 import { showHome } from "./body"
 // Import visual assets so Vite treats them as module assets and copies/hashes them into the build
-import chatVisual from "../assets/chat-visual.png"
 import bgrndVisual from "../assets/bgrndrm-visual.png"
 import ttsVisual from "../assets/tts-visual.png"
 import pdfVisual from "../assets/pdf-visual.svg"
@@ -124,13 +123,6 @@ const createCard = (project: ProjectDemo) => {
 }
 
 const projects: ProjectDemo[] = [
-    // {
-    //     title: "Local chatbot",
-    //     description: "Local LLM Chatbot — private, fast, and fully yours. This on-device assistant keeps every message on your machine for privacy by default, stronger security, and true data ownership. It responds with low‑latency, works offline, avoids API limits and fees, and is fully customizable to your workflows. Wrapped in a clean, user‑friendly UI with modern UX—responsive layout, keyboard shortcuts, and accessible controls—it feels intuitive and delightful to use.",
-    //     imageSrc: chatVisual,
-    //     route: "chat",
-    //     launch: () => console.log("implement chatbot launch")
-    // },
     {
         title: "Background remover",
         summary: "Cuts the subject out of a photo and returns a transparent PNG.",

@@ -15,34 +15,38 @@ No linting or test scripts are configured. TypeScript strict mode catches type e
 
 ## Architecture
 
-Single-page portfolio app built with **Vite + TypeScript**, showcasing three local AI/ML features. Bootstrap 5 is loaded from CDN (no npm install needed for styles/JS).
+Single-page personal site built with **Vite + TypeScript**: intro, selected work, and three in-browser tools. Bootstrap 5 is loaded from CDN (no npm install needed for styles/JS).
 
 ### Navigation & Entry
 
-`src/index.ts` owns the router. It uses the History API (`pushState`/`popstate`) to switch between a home view (project cards) and individual project views. Each project card is created programmatically; clicking one navigates to the corresponding route.
+`src/index.ts` owns the router. It uses the History API (`pushState`/`popstate`) to switch between the home view and individual tool views.
 
-Three routes:
-- `/` — home, shows project cards
-- `/bgrmvr` — Background Remover
-- `/tts` — Text-to-Speech Converter
-- `/chat` — Chat (stub, not implemented)
+The home view is static markup in `index.html` (`#home`: intro, selected work, and a `#demo-cards` slot). Demo cards are generated from the `projects` array in `src/index.ts` as real `<a href="/route">` links; plain left-clicks are intercepted for client-side routing, modified/middle clicks fall through. Nav and footer are static too.
 
-`src/body.ts` provides `setView(id)` / `cleanView()` helpers that show/hide `<section>` elements by ID.
+Routes:
+- `/` — home
+- `/background-remover` — Background Remover
+- `/tts` — Text-to-Speech
+- `/pdf-editor` — PDF editor
+
+`src/body.ts`: `setView(el)` hides `#home` and puts a tool view in `#body`; `showHome()` unhides `#home` and clears `#body`.
 
 ### Features
 
 **Background Remover** (`src/backgroundRemover.ts`)  
-Uses `@huggingface/transformers` with the `onnx-community/BEN2-ONNX` model. Accepts multiple file inputs, runs background removal client-side (GPU via WebGPU/WASM), and renders result cards with before/after images.
+Uses `@huggingface/transformers` with `onnx-community/BEN2-ONNX` (`device: "auto"`: WebGPU with WASM fallback); mobile uses quantized `briaai/RMBG-1.4` on WASM. Inference is queued one image at a time.
 
 **Text-to-Speech** (`src/tts.ts`)  
-Dual-engine: **Kokoro** (local ONNX model `onnx-community/Kokoro-82M-v1.0-ONNX` via `kokoro-js`) and **Web Speech API** (browser-native fallback). Supports American/British voices, pitch/speed/volume controls, playback history with timestamps, and audio download.
+Dual-engine: **Kokoro** (`onnx-community/Kokoro-82M-v1.0-ONNX`, q8, via `kokoro-js`; WASM or opt-in WebGPU) and the **Web Speech API**. Voice/pitch/speed/volume controls, history, WAV download for Kokoro.
 
-**Chat** (`src/chat.ts`)  
-Incomplete stub — message tracking structure exists but no UI or model integration.
+**PDF editor** (`src/pdfEditor.ts`)  
+Thin wrapper around `@embedpdf/snippet` (PDFium WASM in a worker). The wasm is self-hosted and the bundle is dynamically imported on this route.
+
+**Sled media** — files in `assets/sled/` are picked up with `import.meta.glob` and shown under the Sled entry; an empty folder renders nothing.
 
 ### Asset pipeline
 
-Static images live in `assets/` and are referenced directly in HTML. `src/assets.d.ts` adds TypeScript declarations for imported image files. Vite handles bundling and hashing on build.
+Static images live in `assets/` and are imported from TS or referenced in HTML. `public/` (og-image.png) is copied as-is to the site root. `src/assets.d.ts` adds TypeScript declarations for imported image files. Vite handles bundling and hashing on build.
 
 ### Deployment
 

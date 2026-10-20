@@ -1,18 +1,17 @@
 {
-  "name": "portfolio",
+  "name": "bekatan.github.io",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Personal site of Bekatan Satyev, with in-browser ML demos",
+  "homepage": "https://bekatan.github.io",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "deploy": "gh-pages -d dist"
   },
   "keywords": [],
-  "author": "",
+  "author": "Bekatan Satyev",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^24.6.1",
