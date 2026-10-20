@@ -5,7 +5,7 @@ import samplePdf from "@embedpdf/snippet/dist/demo.pdf?url"
 
 export const showPdfEditor = () => {
     const container = document.createElement("div")
-    container.className = "container col-md-10 h-100 d-flex flex-column"
+    container.className = "container col-md-8 h-100 d-flex flex-column"
 
     const header = document.createElement("div")
     header.className = "mx-3 mt-3"

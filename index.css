@@ -228,3 +228,7 @@ body {
     outline-offset: 2px;
     box-shadow: none;
 }
+
+#footer {
+    margin-top: auto;
+}

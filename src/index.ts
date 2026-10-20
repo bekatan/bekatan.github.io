@@ -74,14 +74,11 @@ const showSledMedia = () => {
 
 const main = () => {
     showSledMedia()
-    const brandLink = document.getElementById("brand")
-    const goHome = () => {
+    document.getElementById("brand")?.addEventListener("click", (e) => {
+        if (!isPlainClick(e)) return
+        e.preventDefault()
         pushState('/')
         showProjectCards()
-    }
-    brandLink?.addEventListener("click", goHome)
-    brandLink?.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") goHome()
     })
     initRouter()
 }
