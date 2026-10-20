@@ -1,7 +1,7 @@
 import { showBackgroundRemover } from "./backgroundRemover"
 import { showTTS } from "./tts"
 import { showPdfEditor } from "./pdfEditor"
-import { setView } from "./body"
+import { showHome } from "./body"
 // Import visual assets so Vite treats them as module assets and copies/hashes them into the build
 import chatVisual from "../assets/chat-visual.png"
 import bgrndVisual from "../assets/bgrndrm-visual.png"
@@ -48,11 +48,11 @@ const pushState = (route: string) => {
 }
 
 const showProjectCards = () => {
-    const container = document.createElement("div")
-    container.className = "container col-md-8"
-    const cards = projects.map(createCard)
-    cards.forEach(child => container.appendChild(child))
-    setView(container)
+    const cardSlot = document.getElementById("demo-cards")
+    if (cardSlot && cardSlot.childElementCount === 0) {
+        projects.map(createCard).forEach(card => cardSlot.appendChild(card))
+    }
+    showHome()
 }
 
 const main = () => {

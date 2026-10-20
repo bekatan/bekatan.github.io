@@ -1,5 +1,8 @@
 export const getMainBody = () => document.getElementById("body")
 
+// Intro, selected work and demo cards are static markup in index.html, shown only on the home route
+const getHome = () => document.getElementById("home")
+
 export const cleanBody = () => {
     const mainBody = getMainBody()
     let child
@@ -7,8 +10,16 @@ export const cleanBody = () => {
 }
 
 export const setView = (el: HTMLDivElement) => {
-    const mainBody = getMainBody()
-    let child
-    while (child = mainBody?.firstChild) mainBody.removeChild(child)
-    mainBody?.appendChild(el)
+    const home = getHome()
+    if (home) home.hidden = true
+    cleanBody()
+    getMainBody()?.appendChild(el)
+    // #main is the scroll container; a card clicked low on the home page shouldn't open the tool scrolled down
+    document.getElementById("main")?.scrollTo(0, 0)
+}
+
+export const showHome = () => {
+    const home = getHome()
+    if (home) home.hidden = false
+    cleanBody()
 }
