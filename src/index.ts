@@ -15,6 +15,7 @@ type ProjectDemo = {
     detail: string,
     tags: string[],
     imageSrc: string,
+    imageAlt: string,
     route: string,
     launch: () => void
 }
@@ -86,27 +87,36 @@ const main = () => {
     initRouter()
 }
 
+// Let ctrl/cmd/shift/middle clicks reach the browser so links open in new tabs and windows
+const isPlainClick = (e: MouseEvent) =>
+    e.button === 0 && !e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey
+
 const createCard = (project: ProjectDemo) => {
-    const { title, summary, detail, tags, imageSrc, route, launch } = project
-    const card = document.createElement("div")
-    card.className = "card m-2"
+    const { title, summary, detail, tags, imageSrc, imageAlt, route, launch } = project
+    // A real link, so new-tab opens work: GitHub Pages serves the deep link through 404.html
+    const card = document.createElement("a")
+    card.className = "card demo-card m-2"
+    card.href = `/${route}`
     card.innerHTML =
         `<div class="row g-0">
             <div class="col-md-4">
-                <img src="${imageSrc}" class="img-fluid rounded-start" alt="...">
+                <img src="${imageSrc}" class="img-fluid rounded-start" alt="${imageAlt}">
             </div>
             <div class="col-md-8">
                 <div class="card-body">
                     <h3 class="card-title h5">${title}</h3>
                     <p class="card-text mb-1">${summary}</p>
                     <p class="card-text small text-body-secondary mb-2">${detail}</p>
-                    <div class="d-flex flex-wrap gap-1">
+                    <div class="d-flex flex-wrap gap-1 mb-2">
                         ${tags.map(tag => `<span class="badge rounded-pill text-bg-light border">${tag}</span>`).join("")}
                     </div>
+                    <span class="demo-card-cta">Try it <span aria-hidden="true">→</span></span>
                 </div>
             </div>
         </div>`
-    card.addEventListener("click", () => {
+    card.addEventListener("click", (e) => {
+        if (!isPlainClick(e)) return
+        e.preventDefault()
         pushState(route)
         launch()
     })
@@ -127,6 +137,7 @@ const projects: ProjectDemo[] = [
         detail: "BEN2 via Transformers.js, on WebGPU with a WASM fallback. Phones get the smaller quantized RMBG-1.4, and images run one at a time to cap memory.",
         tags: ["Transformers.js", "ONNX Runtime Web", "WebGPU", "WASM", "BEN2"],
         imageSrc: bgrndVisual,
+        imageAlt: "Illustration: a person's silhouette cut out over a transparent checkerboard, with a magic wand",
         route: "background-remover",
         launch: () => showBackgroundRemover()
     },
@@ -136,6 +147,7 @@ const projects: ProjectDemo[] = [
         detail: "Kokoro-82M (8-bit ONNX) via kokoro-js, on WASM or opt-in WebGPU. The browser's Web Speech API is the second engine.",
         tags: ["Kokoro-82M", "kokoro-js", "WebGPU", "WASM", "Web Speech API"],
         imageSrc: ttsVisual,
+        imageAlt: "Illustration: a text document turning into sound waves from a speaker",
         route: "tts",
         launch: () => showTTS()
     },
@@ -145,6 +157,7 @@ const projects: ProjectDemo[] = [
         detail: "A thin wrapper around EmbedPDF, which runs PDFium compiled to WebAssembly in a Web Worker. The PDFium binary is self-hosted and the editor loads only on this route.",
         tags: ["EmbedPDF", "PDFium", "WebAssembly", "Web Worker"],
         imageSrc: pdfVisual,
+        imageAlt: "Illustration: a PDF page with a highlighted line, a signature and a pen",
         route: "pdf-editor",
         launch: () => showPdfEditor()
     },
