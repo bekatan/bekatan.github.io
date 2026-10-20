@@ -215,3 +215,16 @@ body {
     .demo-card { transition: none; }
     .demo-card:hover { transform: none; }
 }
+
+#footer a {
+    color: var(--bs-success-text-emphasis);
+}
+
+/* Bootstrap's blue focus ring is hard to see on the green header */
+#header .nav-link:focus-visible,
+#header .navbar-toggler:focus-visible,
+.brand-logo:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+    box-shadow: none;
+}
