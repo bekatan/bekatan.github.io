@@ -17,6 +17,58 @@ body {
     flex-grow: 1;
 }
 
+.work-item {
+    padding: 1rem 0;
+    border-top: 1px solid var(--bs-border-color);
+}
+
+.work-item ul {
+    padding-left: 1.1rem;
+    margin-bottom: .5rem;
+}
+
+.work-item li + li {
+    margin-top: .25rem;
+}
+
+.work-meta {
+    font-size: .875rem;
+    color: var(--bs-secondary-color);
+    margin-bottom: .5rem;
+}
+
+.work-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .25rem 1rem;
+    font-size: .875rem;
+    color: var(--bs-secondary-color);
+    margin-bottom: 0;
+}
+
+.work-links a {
+    color: var(--bs-success-text-emphasis);
+}
+
+/* Filled from assets/sled/ at runtime; stays collapsed while that folder is empty */
+.sled-media {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+}
+
+.sled-media:empty {
+    display: none;
+}
+
+.sled-media img {
+    height: 16rem;
+    max-width: 100%;
+    object-fit: contain;
+    border: 1px solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+}
+
 .image-card {
     height: 10rem;
     object-fit: contain;

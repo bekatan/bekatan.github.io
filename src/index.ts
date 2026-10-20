@@ -55,7 +55,22 @@ const showProjectCards = () => {
     showHome()
 }
 
+// Screenshots or a GIF dropped into assets/sled/ show up under the Sled entry; an empty folder renders nothing
+const sledMedia = import.meta.glob<string>("../assets/sled/*.{png,jpg,jpeg,gif,webp}", { eager: true, query: "?url", import: "default" })
+
+const showSledMedia = () => {
+    const slot = document.getElementById("sled-media")
+    Object.keys(sledMedia).sort().forEach((path, i) => {
+        const image = new Image()
+        image.src = sledMedia[path]
+        image.alt = `Sled screenshot ${i + 1}`
+        image.loading = "lazy"
+        slot?.appendChild(image)
+    })
+}
+
 const main = () => {
+    showSledMedia()
     const brandLink = document.getElementById("brand")
     const goHome = () => {
         pushState('/')

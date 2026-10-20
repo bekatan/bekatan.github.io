@@ -51,6 +51,54 @@
                     <a class="btn btn-outline-success" href="https://github.com/bekatan" target="_blank" rel="noopener noreferrer">GitHub</a>
                 </div>
             </section>
+            <section id="work" class="px-2 pb-4" aria-labelledby="work-heading">
+                <h2 id="work-heading" class="h4 mb-2">Selected work</h2>
+                <article class="work-item">
+                    <h3 class="h5 mb-1">Onsquare · Software engineer</h3>
+                    <p class="work-meta">Seoul · Sep 2023 – present · Browser-based productivity app with on-device AI</p>
+                    <ul>
+                        <li>Built a tool-calling agent layer over a strongly typed object model: a generate → execute → feed-back loop with parallel tool execution.</li>
+                        <li>Tools work against a runtime catalog of 18+ JSON-schema types, and the model can define new types mid-conversation.</li>
+                        <li>One agent interface and one tool-call parser serve both a 4B-parameter model on WebGPU (Transformers.js/ONNX) and an OpenAI model.</li>
+                        <li>Managed the GPU lifecycle for in-browser inference: ref-counted model sharing, idle disposal, device-loss recovery, WebGPU → WASM fallback.</li>
+                        <li>Cut initial load time by about 50% with code-splitting, lazy-loaded assets and dependency cleanup.</li>
+                    </ul>
+                    <p class="work-links">No public link: confidential product.</p>
+                </article>
+                <article class="work-item">
+                    <h3 class="h5 mb-1">VAFOR · IEEE RO-MAN 2023</h3>
+                    <p class="work-meta">Satyev, B. and Ahn, H. · Peer-reviewed paper with Prof. Hyemin Ahn</p>
+                    <ul>
+                        <li>A voice-activated robot that infers which object a person needs from an indirect command and brings it.</li>
+                        <li>Pipeline: YOLOv3, GPT-3 choosing the target, ROS and a TurtleBot3 arm.</li>
+                        <li>97% target-identification accuracy on a 100-command test set.</li>
+                    </ul>
+                    <p class="work-links">
+                        <a href="https://ieeexplore.ieee.org/document/10309466" target="_blank" rel="noopener noreferrer">Paper (IEEE Xplore)</a>
+                        <a href="https://github.com/bekatan/vafor" target="_blank" rel="noopener noreferrer">Code</a>
+                    </p>
+                </article>
+                <article class="work-item">
+                    <h3 class="h5 mb-1">isomorphic-git · PR #2150</h3>
+                    <p class="work-meta">Open-source contribution · Merged Oct 2, 2025</p>
+                    <ul>
+                        <li>Fixed a bug where dropping a stash corrupted <code>refs/stash</code>.</li>
+                        <li>Shipped in v1.33.3.</li>
+                    </ul>
+                    <p class="work-links">
+                        <a href="https://github.com/isomorphic-git/isomorphic-git/pull/2150" target="_blank" rel="noopener noreferrer">Pull request</a>
+                    </p>
+                </article>
+                <article class="work-item">
+                    <h3 class="h5 mb-1">Sled · Android focus app</h3>
+                    <p class="work-meta">Personal project · Built with Claude Code</p>
+                    <ul>
+                        <li>Keeps chosen apps locked until a productive app has been used for a set time that day.</li>
+                        <li>Raised my weekly reading time from 5–30 minutes to 3–4 hours.</li>
+                    </ul>
+                    <div id="sled-media" class="sled-media"></div>
+                </article>
+            </section>
             <section id="demos" class="pb-4">
                 <div id="demo-cards"></div>
             </section>
