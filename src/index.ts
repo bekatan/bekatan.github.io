@@ -95,7 +95,7 @@ const createCard = (project: ProjectDemo) => {
     card.href = `/${route}`
     card.innerHTML =
         `<div class="row g-0">
-            <div class="col-md-4">
+            <div class="col-md-4 demo-card-media">
                 <img src="${imageSrc}" class="img-fluid rounded-start" alt="${imageAlt}">
             </div>
             <div class="col-md-8">
@@ -143,7 +143,7 @@ const projects: ProjectDemo[] = [
     {
         title: "PDF editor",
         summary: "Annotate, sign, fill in forms, redact and rotate pages, then download the PDF.",
-        detail: "A thin wrapper around EmbedPDF, which runs PDFium compiled to WebAssembly in a Web Worker. The PDFium binary is self-hosted and the editor loads only on this route.",
+        detail: "Built on EmbedPDF, which runs PDFium compiled to WebAssembly in a Web Worker. The PDFium binary is self-hosted rather than pulled from a CDN, and the editor loads only on its own route, so the rest of the site stays light.",
         tags: ["EmbedPDF", "PDFium", "WebAssembly", "Web Worker"],
         imageSrc: pdfVisual,
         imageAlt: "Illustration: a PDF page with a highlighted line, a signature and a pen",
